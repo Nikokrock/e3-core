@@ -25,6 +25,11 @@ class BuildVar:
         self.value = value
         self.kind = "var"
 
+    def __repr__(self) -> str:
+        return (
+            f"e3.anod.deps.BuildVar(name={repr(self.name)}, value={repr(self.value)})"
+        )
+
     def __str__(self) -> str:
         return f"{self.name}={self.value}"
 
@@ -118,3 +123,26 @@ class Dependency:
 
         dep_env.set_env(build, host, target)
         return dep_env
+
+    def __repr__(self) -> str:
+        result = f"e3.anod.deps.Dependency(name='{self.name}'"
+        if self.product_version is not None:
+            result += f",product_version='{self.product_version}'"
+        if self.build is not None:
+            result += f",build='{self.build}'"
+        if self.host is not None:
+            result += f",host='{self.host}'"
+        if self.target is not None:
+            result += f",target='{self.target}'"
+        if self.qualifier is not None:
+            result += f",qualifier='{self.qualifier}'"
+        if self.local_name != self.name:
+            result += f",local_name='{self.local_name}'"
+        if self.kind == "install":
+            result += f",require='installation'"
+        elif self.kind == "source":
+            result += f",require='source_pkg'"
+        if self.track:
+            result += f",track=True"
+        result += ")"
+        return result
